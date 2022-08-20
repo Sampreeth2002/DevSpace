@@ -1,24 +1,17 @@
-import React, { useContext, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { useCurrentUser } from "../../utils/currentUser.hook"
-import { MedicalSystemContext } from "../App"
-import PropTypes from "prop-types"
-import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
+import Paper from "@material-ui/core/Paper"
+import { withStyles } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
 import TableCell from "@material-ui/core/TableCell"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
-import Paper from "@material-ui/core/Paper"
-import AccountBoxIcon from "@material-ui/icons/AccountBox"
 import FileCopyIcon from "@material-ui/icons/FileCopy"
-import RemoveCircleOutlineOutlinedIcon from "@material-ui/icons/RemoveCircleOutlineOutlined"
-import classNames from "classnames"
-import MenuItem from "@material-ui/core/MenuItem"
-import Icon from "@material-ui/core/Icon"
-import TextField from "@material-ui/core/TextField"
-import SendIcon from "@material-ui/icons/Send"
+import PropTypes from "prop-types"
+import React, { useContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useCurrentUser } from "../../utils/currentUser.hook"
+import { MedicalSystemContext } from "../App"
 
 const CustomTableCell = withStyles(theme => ({
 	head: {
@@ -133,20 +126,20 @@ function ShowPatients(props) {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{patients.map(row => (
-								<TableRow className={classes.row} key={row.id}>
+							{patients.map(patient => (
+								<TableRow className={classes.row} key={patient.id}>
 									<CustomTableCell component='th' scope='row'>
-										{row.name}
+										{patient.name}
 									</CustomTableCell>
-									<CustomTableCell>{row.age}</CustomTableCell>
-									<CustomTableCell>{row.id}</CustomTableCell>
+									<CustomTableCell>{patient.age}</CustomTableCell>
+									<CustomTableCell>{patient.id}</CustomTableCell>
 									<CustomTableCell>
 										<Button
 											variant='secondary'
 											color='default'
 											className={classes.button}
 											startIcon={<FileCopyIcon />}
-											href={`/doctor/${row.id}/view-records/${row.name}`}
+											href={`/doctor/${patient.id}/view-records`}
 										>
 											View
 										</Button>

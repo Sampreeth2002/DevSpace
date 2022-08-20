@@ -1,9 +1,9 @@
 import CircularProgress from "@material-ui/core/CircularProgress"
 import { makeStyles } from "@material-ui/core/styles"
-import ipfsClient from "ipfs-http-client"
 import React, { createContext, useEffect, useState } from "react"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Web3 from "web3"
+import { Web3Storage } from "web3.storage/dist/bundle.esm.min.js"
 import MedicalSystem from "../../abis/MedicalSystem.json"
 import GivePermission from "../GivePermission"
 import { HomePage } from "../HomePage"
@@ -13,11 +13,7 @@ import SignUpPatient from "../SignUpPatient"
 import UploadRecord from "../UploadRecord"
 import ViewPatientRecords from "../ViewPatientRecords"
 
-const ipfs = ipfsClient({
-	host: "ipfs.infura.io",
-	port: 5001,
-	protocol: "https",
-})
+const ipfsStorage = new Web3Storage({ token: process.env.REACT_APP_WEB3_STORAGE_KEY })
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -37,6 +33,7 @@ export const App = () => {
 	const [account, setAccount] = useState(null)
 	const [medicalSystem, setMedicalSystem] = useState(null)
 	const classes = useStyles()
+
 	useEffect(() => {
 		;(async () => {
 			if (window.ethereum) {
@@ -67,7 +64,7 @@ export const App = () => {
 		</div>
 	) : (
 		<div>
-			<MedicalSystemContext.Provider value={{ ipfs, account, medicalSystem }}>
+			<MedicalSystemContext.Provider value={{ ipfsStorage, account, medicalSystem }}>
 				<BrowserRouter>
 					<Routes>
 						<Route path='/' exact element={<HomePage />} />
@@ -76,11 +73,7 @@ export const App = () => {
 						<Route path='/patient/give-permission' exact element={<GivePermission />} />
 						<Route path='/doctor/show-patients' exact element={<ShowPatients />} />
 						<Route path='/doctor/signup' exact element={<SignUpDoctor />} />
-						<Route
-							path='/doctor/:patientId/view-records/:patientName'
-							exact
-							element={<ViewPatientRecords />}
-						/>
+						<Route path='/doctor/:patientId/view-records' exact element={<ViewPatientRecords />} />
 					</Routes>
 				</BrowserRouter>
 			</MedicalSystemContext.Provider>

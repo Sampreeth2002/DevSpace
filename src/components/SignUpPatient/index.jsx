@@ -87,8 +87,6 @@ const SignUpPatient = props => {
 					}}
 					value={age}
 				/>
-				{/* <br />
-        <br /> */}
 				<Button
 					style={{ marginLeft: "15px" }}
 					variant='contained'
@@ -101,27 +99,6 @@ const SignUpPatient = props => {
 				</Button>
 			</form>
 		</div>
-		// <form onSubmit={onSubmitCreatePatient}>
-		//   <label>
-		//     Enter your name of Patient:
-		//     <input
-		//       type="text"
-		//       value={patientName}
-		//       onChange={(e) => {
-		//         setpatientName(e.target.value);
-		//       }}
-		//     />
-		//     <input
-		//       type="text"
-		//       value={age}
-		//       onChange={(e) => {
-		//         setAge(parseInt(e.target.value));
-		//       }}
-		//     />
-		//   </label>
-
-		//   <button>Submit</button>
-		// </form>
 	)
 }
 SignUpPatient.propTypes = {

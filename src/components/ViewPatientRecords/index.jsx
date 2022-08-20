@@ -59,8 +59,8 @@ const styles = theme => ({
 function ViewPatientRecords(props) {
 	const { classes } = props
 	const navigate = useNavigate()
-	const { patientId, patientName } = useParams()
-	// console.log(patientName);
+	const { patientId } = useParams()
+	const [patientName, setPatientName] = useState(null)
 
 	const ctx = useContext(MedicalSystemContext)
 	const { loadingUser, userType, user } = useCurrentUser()
@@ -76,6 +76,8 @@ function ViewPatientRecords(props) {
 		;(async () => {
 			const patient = await ctx.medicalSystem.methods.patients(patientId).call()
 
+			setPatientName(patient.name)
+
 			for (let recordId = 1; recordId <= patient.totalRecords; ++recordId) {
 				const { ipfsHash, uploadDate, name } = await ctx.medicalSystem.methods
 					.getPatientRecord(patientId, recordId)
@@ -87,8 +89,6 @@ function ViewPatientRecords(props) {
 	}, [loadingUser, userType, user])
 
 	console.table(records)
-
-	// console.table(users);
 
 	return (
 		<div style={{ marginLeft: "25vw", marginTop: "15px" }}>
@@ -102,7 +102,6 @@ function ViewPatientRecords(props) {
 					<Table className={classes.table}>
 						<TableHead>
 							<TableRow>
-								{/* <CustomTableCell>Record Name</CustomTableCell> */}
 								<CustomTableCell>Record Uploaded Time</CustomTableCell>
 								<CustomTableCell>Record</CustomTableCell>
 							</TableRow>
@@ -110,9 +109,6 @@ function ViewPatientRecords(props) {
 						<TableBody>
 							{records.map(row => (
 								<TableRow className={classes.row} key={row.id}>
-									{/* <CustomTableCell component="th" scope="row">
-                    Blood Pressure
-                  </CustomTableCell> */}
 									<CustomTableCell component='th' scope='row'>
 										{row.uploadDate.toString()}
 									</CustomTableCell>
@@ -123,7 +119,7 @@ function ViewPatientRecords(props) {
 											color='default'
 											className={classes.button}
 											startIcon={<AttachmentIcon />}
-											href={`https://ipfs.infura.io/ipfs/${row.ipfsHash}`}
+											href={"https://" + `${row.ipfsHash}.ipfs.w3s.link`}
 										></Button>
 									</CustomTableCell>
 								</TableRow>

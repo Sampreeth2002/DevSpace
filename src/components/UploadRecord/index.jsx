@@ -63,7 +63,7 @@ function UploadRecord(props) {
 	const { classes } = props
 	const ctx = useContext(MedicalSystemContext)
 	const { loadingUser, userType, user } = useCurrentUser()
-	const [fileBuffer, setFileBuffer] = useState(null)
+	const [readFiles, setReadFiles] = useState(null)
 	const [records, setRecords] = useState([])
 	const [recordName, setrecordName] = useState([])
 
@@ -89,12 +89,7 @@ function UploadRecord(props) {
 		event.preventDefault()
 
 		//Process File for IPFS
-		const file = event.target.files[0]
-		const reader = new window.FileReader()
-		reader.readAsArrayBuffer(file)
-		reader.onloadend = () => {
-			setFileBuffer(Buffer(reader.result))
-		}
+		setReadFiles([event.target.files[0]])
 	}
 
 	// Example: "QmdAZ1qp1vpw3MvVrSdYAT1M4zS2N57p1kCmz5RCFAKJ49";
@@ -102,41 +97,32 @@ function UploadRecord(props) {
 	const onSubmitUploadRecord = async event => {
 		event.preventDefault()
 
-		ctx.ipfs.add(fileBuffer, async (error, result) => {
-			//In result we will get the hash code of the file uploaded
-			if (error) {
-				console.error(error)
-				return
-			}
+		let rootCid
+		try {
+			rootCid = await ctx.ipfsStorage.put(readFiles)
+		} catch (error) {
+			console.error(error)
+			return
+		}
 
-			const res = await ctx.medicalSystem.methods
-				.uploadPatientRecord(result[0].hash, recordName)
-				.send({ from: ctx.account })
+		const res = await ctx.medicalSystem.methods
+			.uploadPatientRecord(rootCid, recordName)
+			.send({ from: ctx.account })
 
-			const { newRecordId } = res.events.PatientRecordUploaded.returnValues
+		const { newRecordId } = res.events.PatientRecordUploaded.returnValues
 
-			const { ipfsHash, uploadDate, name } = await ctx.medicalSystem.methods
-				.getPatientRecord(ctx.account, newRecordId)
-				.call({ from: ctx.account })
-			setRecords(rec => [...rec, { ipfsHash, uploadDate: new Date(uploadDate * 1000), name }])
-		})
-		//Store hash(file) in blockchain
+		const { ipfsHash, uploadDate, name } = await ctx.medicalSystem.methods
+			.getPatientRecord(ctx.account, newRecordId)
+			.call({ from: ctx.account })
+		setRecords(rec => [...rec, { ipfsHash, uploadDate: new Date(uploadDate * 1000), name }])
+
+		// Store hash(file) in blockchain
 	}
 
 	console.table(records)
 
 	return (
 		<div>
-			{/* <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-        <a
-          className="navbar-brand col-sm-3 col-md-2 mr-0"
-          href="http://www.dappuniversity.com/bootcamp"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Dapp University
-        </a>
-      </nav> */}
 			<div className='container-fluid mt-5'>
 				<div style={{ textAlign: "center" }}>
 					<div>
@@ -166,7 +152,6 @@ function UploadRecord(props) {
 							>
 								Upload
 							</Button>
-							{/* <input type="submit" /> */}
 						</form>
 					</div>
 					<div style={{ marginLeft: "23vw", width: "750px" }}>

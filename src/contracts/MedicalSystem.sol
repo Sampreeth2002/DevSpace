@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 
 contract MedicalSystem {
-    uint public patientCount  = 0;
+    uint public patientCount = 0;
     uint public doctorCount = 0;
     mapping(address => Patient) public patients;
     mapping(address => Doctor) public doctors;

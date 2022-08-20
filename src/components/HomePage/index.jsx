@@ -26,7 +26,9 @@ export const HomePage = () => {
 			.getPastEvents("allEvents", { fromBlock: 0, toBlock: "latest" })
 			.then(console.log)
 	}
+
 	console.log(user, userType)
+
 	if (user != null && userType === "Patient") {
 		return (
 			<div style={{ textAlign: "center", marginTop: "30vh" }}>
