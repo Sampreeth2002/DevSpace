@@ -119,7 +119,7 @@ function ViewPatientRecords(props) {
 											color='default'
 											className={classes.button}
 											startIcon={<AttachmentIcon />}
-											href={"https://" + `${row.ipfsHash}.ipfs.w3s.link`}
+											href={`${"https://"}${row.ipfsHash}.ipfs.w3s.link/${row.name}`}
 										></Button>
 									</CustomTableCell>
 								</TableRow>

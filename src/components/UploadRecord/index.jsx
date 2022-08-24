@@ -63,7 +63,7 @@ function UploadRecord(props) {
 	const { classes } = props
 	const ctx = useContext(MedicalSystemContext)
 	const { loadingUser, userType, user } = useCurrentUser()
-	const [readFiles, setReadFiles] = useState(null)
+	const [readFile, setReadFile] = useState(null)
 	const [records, setRecords] = useState([])
 	const [recordName, setrecordName] = useState([])
 
@@ -89,7 +89,7 @@ function UploadRecord(props) {
 		event.preventDefault()
 
 		//Process File for IPFS
-		setReadFiles([event.target.files[0]])
+		setReadFile(event.target.files[0])
 	}
 
 	// Example: "QmdAZ1qp1vpw3MvVrSdYAT1M4zS2N57p1kCmz5RCFAKJ49";
@@ -99,14 +99,14 @@ function UploadRecord(props) {
 
 		let rootCid
 		try {
-			rootCid = await ctx.ipfsStorage.put(readFiles)
+			rootCid = await ctx.ipfsStorage.put([readFile])
 		} catch (error) {
 			console.error(error)
 			return
 		}
 
 		const res = await ctx.medicalSystem.methods
-			.uploadPatientRecord(rootCid, recordName)
+			.uploadPatientRecord(rootCid, readFile.name)
 			.send({ from: ctx.account })
 
 		const { newRecordId } = res.events.PatientRecordUploaded.returnValues
@@ -142,7 +142,7 @@ function UploadRecord(props) {
 							/>
 							<br />
 							<br />
-							<input type='file' onChange={onFileCapture} />
+							<input type='file' accept='application/pdf' onChange={onFileCapture} />
 							<Button
 								variant='contained'
 								color='default'
