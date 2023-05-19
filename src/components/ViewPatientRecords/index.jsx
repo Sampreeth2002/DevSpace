@@ -14,6 +14,7 @@ import { useCurrentUser } from "../../utils/currentUser.hook";
 import { MedicalSystemContext } from "../App";
 import DoctorNavbar from "../Navbar/doctorNavbar";
 
+
 const CustomTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,

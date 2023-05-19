@@ -12,6 +12,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../../utils/currentUser.hook";
 import { MedicalSystemContext } from "../App";
+import ContactMailIcon from "@material-ui/icons/ContactMail";
 import DoctorNavbar from "../Navbar/doctorNavbar";
 
 const CustomTableCell = withStyles((theme) => ({
@@ -116,15 +117,14 @@ function ShowPatients(props) {
           width: "750px",
         }}
       >
-        <h3 style={{ fontFamily: "Anuphan, sans-serif" }}>
-          Patient's Information
-        </h3>
+        <h3 style={{ fontFamily: "Anuphan, sans-serif" }}>Your Patients</h3>
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
                 <CustomTableCell>Patient's Name</CustomTableCell>
                 <CustomTableCell>Patient's Age</CustomTableCell>
+                <CustomTableCell>Patient's Details</CustomTableCell>
                 <CustomTableCell>Patient's Address</CustomTableCell>
                 <CustomTableCell>Records</CustomTableCell>
               </TableRow>
@@ -133,9 +133,22 @@ function ShowPatients(props) {
               {patients.map((patient) => (
                 <TableRow className={classes.row} key={patient.id}>
                   <CustomTableCell component="th" scope="row">
-                    {patient.name}
+                    {patient.first_name}
                   </CustomTableCell>
                   <CustomTableCell>{patient.age}</CustomTableCell>
+
+                  {console.log(JSON.stringify(patient))}
+                  <CustomTableCell>
+                    <Button
+                      variant="secondary"
+                      color="default"
+                      className={classes.button}
+                      startIcon={<ContactMailIcon />}
+                      href={`/patient/${JSON.stringify(patient)}/`}
+                    >
+                      Info
+                    </Button>
+                  </CustomTableCell>
                   <CustomTableCell>{patient.id}</CustomTableCell>
                   <CustomTableCell>
                     <Button

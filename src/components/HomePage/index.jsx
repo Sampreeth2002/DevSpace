@@ -39,7 +39,11 @@ export const HomePage = () => {
           <h3
             style={{ marginBottom: "5vh", fontFamily: "Anuphan, sans-serif" }}
           >
-            Welcome Back <span>{user.name}</span>
+            Welcome Back <span>{user.first_name}</span>{" "}
+            <span>{user.last_name}</span>
+            {/* <span>{user.blood_group}</span>
+            <span>{user.contact_number}</span>
+            <span>{user.location}</span> */}
           </h3>
           <div>
             <div className={classes.root}>
@@ -84,7 +88,7 @@ export const HomePage = () => {
           <h3
             style={{ marginBottom: "5vh", fontFamily: "Anuphan, sans-serif" }}
           >
-            Welcome Back Dr. <span>{user.name}</span>
+            Welcome Back Dr. <span>{user.first_name}</span> {user.last_name}{" "}
           </h3>
           <div>
             <div className={classes.root}>

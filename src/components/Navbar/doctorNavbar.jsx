@@ -43,6 +43,15 @@ export default function PatientNavbar() {
               View Patients
             </Link>
           </li>
+          <li className="nav-item active">
+            <Link
+              className="nav-link"
+              to="/doctor/aboutMe"
+              id="authorize-doctors-link"
+            >
+              About Me
+            </Link>
+          </li>
           {/* <li className="nav-item active">
             <Link
               className="nav-link"

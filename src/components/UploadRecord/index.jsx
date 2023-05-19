@@ -198,11 +198,7 @@ function UploadRecord(props) {
               />
               <br />
               <br /> */}
-              <input
-                type="file"
-                accept="application/pdf"
-                onChange={onFileCapture}
-              />
+              <input type="file" onChange={onFileCapture} />
               <Button
                 variant="contained"
                 color="default"

@@ -162,14 +162,15 @@ function GivePermission(props) {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Dr. {doctor.name}
+                      Dr. {doctor.first_name}
+                      {console.log(doctor)}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      Appollo Hospital - MBBS, MS(Dermatalogy)
+                      {doctor.hospital} - {doctor.creditionals}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
@@ -221,7 +222,8 @@ function GivePermission(props) {
                 {Object.values(permittedDoctors).map((doctor) => (
                   <TableRow className={classes.row} key={doctor.id}>
                     <CustomTableCell component="th" scope="row">
-                      {doctor.name}
+                      {doctor.first_name} {doctor.last_name}
+                      {console.log(doctor)}
                     </CustomTableCell>
                     <CustomTableCell>{doctor.id}</CustomTableCell>
                     <CustomTableCell>
